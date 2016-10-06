@@ -1,0 +1,40 @@
+user:
+    name: yarik
+    uid: 1000
+    group: yarik
+    shell: /usr/bin/zsh
+
+video_drivers:
+    - mesa-libgl
+    - mesa
+    - libva-intel-driver 
+
+base_packages:
+    - git
+    - vim
+    - htop
+    - mc
+    - curl
+    - glances
+    - coreutils
+    - moreutils
+    - gnupg
+    - pass
+    - reflector
+    - strace
+    - lsof
+    - sysstat
+    - pv
+    - zsh
+    - zsh-completions
+    - bash
+    - bash-completion    
+
+more_packages:
+    - 
+
+#passwordless_sudo:
+#    - /usr/bin/openvpn*
+
+
+

@@ -1,0 +1,7 @@
+
+- name: Install media packages
+  package: name={{ item }} state=present
+  with_items:
+    - mc
+    - git
+    - zsh

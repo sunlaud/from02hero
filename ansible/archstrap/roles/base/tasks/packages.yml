@@ -1,0 +1,56 @@
+---
+- name: Install universal base packages
+  pacman: name={{ item }} state=present
+  with_items: "{{ base_packages }}"
+
+- name: Install videodrivers
+  pacman: name={{ item }} state=present
+  with_items: "{{ video_drivers }}"
+
+- name: Install sddm
+  pacman: name={{ item }} state=present
+  with_items:
+    - sddm
+  notify:
+    - enable sddm
+
+- name: Install X and DE
+  pacman: name={{ item }} state=present
+  with_items:
+    - xf86-input-libinput
+    - xorg-server
+    - plasma
+    - kdegraphics-okular
+    - kolourpaint
+    - spectacle
+    - gwenview
+    - ttf-freefont
+
+
+- name: Add user to video group
+  user: name={{ user.name }} groups=video append=yes
+
+
+- name: Install media packages
+  pacman: name={{ item }} state=present
+  with_items:
+    - gimp
+    - mpv
+    - deadbeef
+
+
+- name: Install misc media codecs and helpers
+  pacman: name={{ item }} state=present
+  with_items:
+    - flac
+    - lame
+    - exiv2
+    - perl-image-exiftool
+
+
+- name: Install other useful packages
+  pacman: name={{ item }} state=present
+  with_items:
+    - firefox
+    - chromium
+    - scite

@@ -1,0 +1,11 @@
+[Trigger]
+Operation = Upgrade
+Operation = Install
+Operation = Remove
+Type = Package
+Target = *
+
+[Action]
+Description = Cleaning old entries from pacman cache...
+When = PostTransaction
+Exec = /bin/sh -c "/usr/bin/paccache -r; /usr/bin/paccache -ruk0"
