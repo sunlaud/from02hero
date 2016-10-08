@@ -1,4 +1,5 @@
 ---
+
 - name: Create pacman hook directory
   file: path=/etc/pacman.d/hooks state=directory
 
@@ -8,17 +9,17 @@
 - name: Push pacman cache cleanup hook
   copy: src=paccache.hook dest=/etc/pacman.d/hooks/paccache_cleanup.hook
 
-- name: enable color in /etc/pacman.conf
+- name: Enable color in /etc/pacman.conf
   replace: dest=/etc/pacman.conf regexp='^#Color$' replace='Color'
 
-- name: Add user to wheel group
-  user: name={{ user.name }} groups=wheel append=yes
+- name: Install reflector
+  pacman: name=reflector state=present
 
-- name: Copy sudo configuration
-  template: src=sudoers_wheel.j2 dest=/etc/sudoers.d/wheel mode=440 validate='visudo -cf %s'
+- name: Update of mirrorlist (via hook)
+  command: pacman --noconfirm -S pacman-mirrorlist
+  when: pacman_update_mirrors_and_cache == 'y'
 
-- name: Enable services
-  service: name={{ item }} enabled=yes
-  with_items:
-    - dhcpd.service 
+- name: Update_cache and upgrade after mirrorlist update
+  command: pacman -Syy 
+  when: pacman_update_mirrors_and_cache == 'y'
 

@@ -19,16 +19,14 @@
   with_items:
     - xf86-input-libinput
     - xorg-server
+    - xorg-xinit
     - plasma
+    - kde-applications 
     - kdegraphics-okular
     - kolourpaint
     - spectacle
     - gwenview
     - ttf-freefont
-
-
-- name: Add user to video group
-  user: name={{ user.name }} groups=video append=yes
 
 
 - name: Install media packages
@@ -48,9 +46,10 @@
     - perl-image-exiftool
 
 
-- name: Install other useful packages
+- name: Install utilities and misc soft
   pacman: name={{ item }} state=present
   with_items:
     - firefox
     - chromium
     - scite
+    - qbittorrent

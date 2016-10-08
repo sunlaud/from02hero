@@ -7,7 +7,11 @@ user:
 video_drivers:
     - mesa-libgl
     - mesa
-    - libva-intel-driver 
+    - libva-intel-driver
+#    - xf86-video-vesa
+
+#xf86-video-intel
+#lib32-mesa lib32-mesa-libgl
 
 base_packages:
     - git
@@ -15,20 +19,24 @@ base_packages:
     - htop
     - mc
     - curl
-    - glances
-    - coreutils
-    - moreutils
-    - gnupg
-    - pass
-    - reflector
-    - strace
-    - lsof
-    - sysstat
-    - pv
+    - tk
     - zsh
     - zsh-completions
+    - sudo
     - bash
-    - bash-completion    
+    - bash-completion 
+    - lsof
+    - coreutils
+    - moreutils
+    - reflector
+    - pkgfile
+    - strace
+    - sysstat
+    - glances
+    - gnupg
+    - pass
+    - tlp
+    - tlp-rdw 
 
 more_packages:
     - 

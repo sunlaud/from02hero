@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  become: yes
+  roles:
+    - { role: base, tags: ['base'] }
+    - { role: microcode, tags: ['microcode'], when: "'GenuineIntel' in ansible_processor" }
+    - { role: grsec, tags: ['grsec'] }
+
+  vars_prompt:
+    - name: pacman_update_mirrors_and_cache
+      prompt: "Update pacman mirrors and cache [y/N]?"
+      private: no
+      default: "N"

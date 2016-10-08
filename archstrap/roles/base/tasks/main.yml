@@ -1,0 +1,7 @@
+---
+
+- include: create-user.yml
+- include: pacman-config.yml
+- include: install-packages.yml
+- include: config.yml
+

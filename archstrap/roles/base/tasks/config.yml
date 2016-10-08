@@ -1,0 +1,19 @@
+---
+
+- name: Speedup app start time (aka 'magic trick')
+  shell: mkdir -p /home/{{ user.name }}/.compose-cache && ln -sfv /run/user/{{ user.uid }}/ /home/{{ user.name }}/.compose-cache
+  args:
+    executable: /bin/sh
+    creates: "/home/{{ user.name }}/.compose-cache" 
+
+- name: Add user to common groups
+  user: name={{ user.name }} groups=wheel,video append=yes
+
+- name: Copy sudo configuration
+  template: src=sudoers_wheel.j2 dest=/etc/sudoers.d/wheel mode=440 validate='visudo -cf %s'
+
+- name: Enable services
+  service: name={{ item }} enabled=yes
+  with_items:
+    - dhcpcd.service 
+    - sddm.service 
