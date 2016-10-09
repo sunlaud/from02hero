@@ -7,35 +7,24 @@
   pacman: name={{ item }} state=present
   with_items: "{{ video_drivers }}"
 
-- name: Install sddm
-  pacman: name={{ item }} state=present
-  with_items:
-    - sddm
-  notify:
-    - enable sddm
-
 - name: Install X and DE
   pacman: name={{ item }} state=present
   with_items:
     - xf86-input-libinput
+    - sddm    
     - xorg-server
     - xorg-xinit
     - plasma
-    - kde-applications 
-    - kdegraphics-okular
-    - kolourpaint
-    - spectacle
-    - gwenview
     - ttf-freefont
+    - spectacle
 
-
-- name: Install media packages
+- name: Install media apps
   pacman: name={{ item }} state=present
   with_items:
     - gimp
     - mpv
     - deadbeef
-
+    - perl-image-exiftool
 
 - name: Install misc media codecs and helpers
   pacman: name={{ item }} state=present
@@ -43,13 +32,27 @@
     - flac
     - lame
     - exiv2
-    - perl-image-exiftool
 
-
-- name: Install utilities and misc soft
+- name: Install desktop apps
   pacman: name={{ item }} state=present
   with_items:
     - firefox
     - chromium
     - scite
     - qbittorrent
+    - kde-applications
+
+- name: Install NetworkManager and applet
+  pacman: name={{ item }} state=present
+  with_items:
+      - networkmanager
+      - plasma-nm
+
+- name: Enable and start NetworkManager
+  service: name={{ item }} enabled=yes state=started
+  with_items:
+    - NetworkManager.service
+    - NetworkManager-dispatcher.service
+
+    
+- include: install-virtualbox.yml

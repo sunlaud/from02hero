@@ -1,0 +1,5 @@
+---
+
+- name: Copy .gitconfig
+  copy: src=gitconfig dest="{{ dotfiles_user_home }}/.gitconfig"
+

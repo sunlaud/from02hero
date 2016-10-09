@@ -7,7 +7,7 @@
     - virtualbox
     - virtualbox-guest-iso
     - virtualbox-guest-utils
-    - 
+
 
 - name: Add the user to vboxusers group
   user: name={{ user.name }} groups=vboxusers append=yes

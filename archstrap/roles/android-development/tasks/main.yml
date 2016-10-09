@@ -1,0 +1,22 @@
+---
+
+- name: Install JDKs
+  pacman: name={{ item }} state=present
+  with_items:
+    - jdk7-openjdk
+    - openjdk7-src
+    - jdk8-openjdk
+    - openjdk8-src
+    - java-environment-openjdk
+
+- name: Install java development tools
+  pacman: name={{ item }} state=present
+  with_items:
+    - apache-ant
+    - maven
+    - gradle
+    - intellij-idea-community-edition
+
+    
+- name: Set default java
+  command: archlinux-java set java-8-openjdk

@@ -8,7 +8,6 @@ video_drivers:
     - mesa-libgl
     - mesa
     - libva-intel-driver
-#    - xf86-video-vesa
 
 #xf86-video-intel
 #lib32-mesa lib32-mesa-libgl
@@ -35,14 +34,15 @@ base_packages:
     - glances
     - gnupg
     - pass
-    - tlp
-    - tlp-rdw 
 
-more_packages:
-    - 
 
 #passwordless_sudo:
 #    - /usr/bin/openvpn*
 
 
-
+dotfiles_user_home: "/home/{{ user.name }}"
+dotfiles_zsh_theme: sunny
+dotfiles_oh_my_zsh_plugins:
+  - git
+  - history-substring-search
+  - mvn

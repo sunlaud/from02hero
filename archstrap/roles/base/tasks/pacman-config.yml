@@ -19,7 +19,15 @@
   command: pacman --noconfirm -S pacman-mirrorlist
   when: pacman_update_mirrors_and_cache == 'y'
 
-- name: Update_cache and upgrade after mirrorlist update
+- name: Enable multilib repo in /etc/pacman.conf
+  blockinfile:
+    dest: /etc/pacman.conf
+    insertbefore: ^#.*multilib
+    block: |
+      [multilib]
+      Include = /etc/pacman.d/mirrorlist
+
+- name: Update_cache and after mirrorlist update
   command: pacman -Syy 
   when: pacman_update_mirrors_and_cache == 'y'
 

@@ -3,9 +3,11 @@
 - hosts: localhost
   become: yes
   roles:
-    - { role: base, tags: ['base'] }
-    - { role: microcode, tags: ['microcode'], when: "'GenuineIntel' in ansible_processor" }
-    - { role: grsec, tags: ['grsec'] }
+    - base
+    - laptop
+    - java-development
+    - dotfiles
+    - { role: microcode, when: "'GenuineIntel' in ansible_processor" }
 
   vars_prompt:
     - name: pacman_update_mirrors_and_cache
