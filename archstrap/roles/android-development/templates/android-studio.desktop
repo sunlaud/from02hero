@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Exec={{ android_studio_bin_folder }}/studio.sh
+Icon={{ android_studio_bin_folder }}/studio.png
+Name=Android Studio
+Comment=Android Studio v.{{ android_studio_archive_version }}
+Type=Application
+Categories=Development;
+StartupNotify=true
+Terminal=false
+Version={{ android_studio_archive_version }}

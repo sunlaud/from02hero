@@ -1,0 +1,10 @@
+android_studio_archive_version: 2.2.0.12
+android_studio_archive_name: android-studio-ide-145.3276617-linux.zip
+android_studio_archive_url: https://dl.google.com/dl/android/studio/ide-zips/{{ android_studio_archive_version }}/{{ android_studio_archive_name }}
+android_studio_archive_checksum: sha1:4eec979ad4d216fd591ebe0112367c746cedb114
+android_studio_install_folder: /opt
+android_studio_folder: "{{ android_studio_install_folder }}/android-studio"
+android_sdk_folder: "{{ android_studio_install_folder }}/android-sdk"
+android_studio_bin_folder: "{{ android_studio_folder }}/bin"
+
+tmp_dir: /tmp
