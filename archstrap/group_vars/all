@@ -20,6 +20,8 @@ base_packages:
     - curl
     - tk
     - zsh
+    - zip
+    - unzip
     - zsh-completions
     - sudo
     - bash

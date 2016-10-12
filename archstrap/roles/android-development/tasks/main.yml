@@ -38,3 +38,6 @@
   file:
     path: "{{ android_sdk_folder }}"
     state: directory
+
+    
+sudo pacman -Syv lib32-libstdc++5 lib32-zlib
