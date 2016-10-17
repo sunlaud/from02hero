@@ -4,7 +4,16 @@
   pacman: name={{ item }} state=present
   with_items:
     - tlp
-    - tlp-rdw 
+    - tlp-rdw
     - acpi_call
+    - x86_energy_perf_policy
 
 
+- name: Mask rfkill service
+- command: systemctl mask systemd-rfkill.service
+    
+- name: Enable services
+  service: name={{ item }} enabled=yes
+  with_items:
+    - tlp.service
+    - tlp-sleep.service
