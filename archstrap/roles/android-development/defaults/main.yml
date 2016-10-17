@@ -8,3 +8,5 @@ android_sdk_folder: "{{ android_studio_install_folder }}/android-sdk"
 android_studio_bin_folder: "{{ android_studio_folder }}/bin"
 
 tmp_dir: /tmp
+
+android_home: "/home/{{ user.name }}/Android/Sdk"

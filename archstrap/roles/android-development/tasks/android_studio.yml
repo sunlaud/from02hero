@@ -1,0 +1,27 @@
+---
+
+- name: Download Android Studio archive
+  get_url:
+    url: "{{ android_studio_archive_url }}"
+    dest: "{{ tmp_dir }}/{{ android_studio_archive_name }}"
+    checksum: "{{ android_studio_archive_checksum }}"
+
+- name: Create Android Studio installation folder
+  file:
+    path: "{{ android_studio_install_folder }}"
+    state: directory
+
+- name: Unzip Android Studio to installation folder
+  unarchive:
+    src: "{{ tmp_dir }}/{{ android_studio_archive_name }}"
+    dest: "{{ android_studio_install_folder }}"
+    remote_src: yes
+
+- name: Create Android Studio installation folder
+  file: path=/usr/local/share/applications state=directory
+    
+- name: Create shortcut in menu
+  template:
+    src: "../templates/android-studio.desktop"
+    dest: "/usr/local/share/applications/android-studio.desktop"
+    

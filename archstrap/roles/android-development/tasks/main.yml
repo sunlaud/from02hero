@@ -1,43 +1,42 @@
 ---
 
+- stat: path={{ android_studio_bin_folder }}
+  register: android_studio_bin_dir
 
-- name: Download Android Studio archive
-  get_url:
-    url: "{{ android_studio_archive_url }}"
-    dest: "{{ tmp_dir }}/{{ android_studio_archive_name }}"
-    checksum: "{{ android_studio_archive_checksum }}"
+- include: android_studio.yml
+  when: not android_studio_bin_dir.stat.exists
 
-- name: Create Android Studio installation folder
-  file:
-    path: "{{ android_studio_install_folder }}"
-    state: directory
-
-- name: Unzip Android Studio to installation folder
-  unarchive:
-    src: "{{ tmp_dir }}/{{ android_studio_archive_name }}"
-    dest: "{{ android_studio_install_folder }}"
-    remote_src: yes
-
-- name: Create Android Studio installation folder
-  file: path=/usr/local/share/applications state=directory
-    
-- name: Create shortcut in menu
-  template:
-    src: "../templates/android-studio.desktop"
-    dest: "/usr/local/share/applications/android-studio.desktop"
-    
-    
 - name: Create group for android-sdk users
   group: name=androidsdkusers state=present
 
 - name: Add user to androidsdkusers group
   user: name={{ user.name }} groups=androidsdkusers append=yes
-    
-    
+
+
 - name: Create Android SDK folder
   file:
     path: "{{ android_sdk_folder }}"
     state: directory
 
-    
-sudo pacman -Syv lib32-libstdc++5 lib32-zlib
+- name: Install packages for android dev
+  pacman: name={{ item }} state=present
+  with_items:
+    - lib32-libstdc++5
+    - lib32-zlib
+    - mesa-demos  #needed for AVD
+
+
+- name: Add Android-related env variables to ~/.pam_environment
+  blockinfile:
+    dest: /home/{{ user.name }}/.pam_environment
+    create: yes
+    marker: "### {mark} ANSIBLE MANAGED BLOCK :: Android variables"
+    owner: "{{ user.name}}"
+    group: "{{ user.group }}"
+    block: |
+        ANDROID_HOME={{ android_home }}
+        #workaround for bug 'libGL error: failed to load driver' (https://code.google.com/p/android/issues/detail?id=197254)
+        ANDROID_EMULATOR_USE_SYSTEM_LIBS=1
+
+
+
