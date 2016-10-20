@@ -2,3 +2,6 @@
 
 - name: enable sddm
   service: name=sddm.service enabled=yes
+
+- name: rebuild initcpio
+  command: mkinitcpio -p linux

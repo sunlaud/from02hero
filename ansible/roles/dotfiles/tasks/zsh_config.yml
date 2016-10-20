@@ -8,3 +8,10 @@
 
 - name: Render zshrc
   template: src=zshrc.template dest="{{ dotfiles_user_home }}/.zshrc" backup=yes
+  tags:
+    - shell
+
+- name: Copy .shellrc
+  copy: src=shellrc dest="{{ dotfiles_user_home }}/.shellrc" backup=yes
+  tags:
+    - shell

@@ -4,7 +4,7 @@
   shell: mkdir -p /home/{{ user.name }}/.compose-cache && ln -sfv /run/user/{{ user.uid }}/ /home/{{ user.name }}/.compose-cache
   args:
     executable: /bin/sh
-    creates: "/home/{{ user.name }}/.compose-cache" 
+    creates: "/home/{{ user.name }}/.compose-cache"
 
 - name: Add user to common groups
   user: name={{ user.name }} groups=wheel,video append=yes
@@ -16,4 +16,43 @@
   service: name={{ item }} enabled=yes
   with_items:
     - dhcpcd.service 
-    - sddm.service 
+    - sddm.service
+
+
+- shell: blkid -t TYPE=swap -o export | grep '^LABEL=' | cut -d= -f2
+  register: swap_disk_label_for_resume
+  changed_when: false
+
+
+- fail:
+    msg: "Expected only one swap partition (labeled), but found {{swap_disk_label_for_resume.stdout.split('\n') | length}}: {{swap_disk_label_for_resume.stdout.split('\n')}}"
+  when: swap_disk_label_for_resume.stdout.split('\n') | length | int != 1
+
+
+- debug: msg="Using swap disk with label '{{ swap_disk_label_for_resume.stdout }}' for resuming from hibernate"
+
+
+- name: Add resume kernel param for resuming from suspend on disk
+  replace:
+    backup: yes
+    dest: /etc/default/grub
+    regexp: '^(GRUB_CMDLINE_LINUX_DEFAULT=")(?!.*\bresume=)(.*)$'
+    replace: '\1resume=LABEL={{ swap_disk_label_for_resume.stdout }} \2'
+  notify:
+    - rebuild grub
+
+
+- name: Add resume hook to initramfs for resuming from suspend on disk
+  replace:
+    backup: yes
+    dest: /etc/mkinitcpio.conf
+    regexp: '^(HOOKS="base udev)(?!.*\sresume\s)(.*)$'
+    replace: '\1 resume \2'
+  notify:
+    - rebuild initcpio
+
+
+
+
+
+

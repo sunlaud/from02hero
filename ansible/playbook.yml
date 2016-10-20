@@ -4,7 +4,7 @@
   become: yes
   roles:
     - base
-    - laptop
+    - { role: laptop, when: ansible_form_factor == 'Notebook' }
     - java-development
     - dotfiles
     - { role: microcode, when: "'GenuineIntel' in ansible_processor" }

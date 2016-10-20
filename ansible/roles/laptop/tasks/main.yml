@@ -10,8 +10,8 @@
 
 
 - name: Mask rfkill service
-- command: systemctl mask systemd-rfkill.service
-    
+  command: systemctl mask systemd-rfkill.service
+
 - name: Enable services
   service: name={{ item }} enabled=yes
   with_items:

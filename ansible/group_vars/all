@@ -36,6 +36,7 @@ base_packages:
     - glances
     - gnupg
     - pass
+    - bind-tools
 
 
 #passwordless_sudo:
